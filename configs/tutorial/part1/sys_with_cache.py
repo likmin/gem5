@@ -8,6 +8,10 @@ class L1Cache(Cache):
     mshrs = 4
     tgts_per_mshr = 20
 
+    def __init__(self, options=None):
+        super(L1Cache,self).__init__()
+        pass
+
     def connectCPU(self, cpu):
         # need to define this in a base class!
         raise NotImplementedError
@@ -17,7 +21,13 @@ class L1Cache(Cache):
 
 
 class L1ICache(L1Cache):
-    size = '16384'
+    size = '16kB'
+
+    def __init__(self, options=None):
+        super(L1ICache,self).__init__()
+        if not options or not options.l1i_size:
+            return
+        self.size = options.l1i_size
 
     def connectCPU(self, cpu):
         self.cpu_side = cpu.icache_port
@@ -25,7 +35,13 @@ class L1ICache(L1Cache):
 
 
 class L1DCache(L1Cache):
-    size = '65536'
+    size = '64kB'
+
+    def __init__(self, options=None):
+        super(L1DCache,self).__init__()
+        if not options or not options.l1i_size:
+            return
+        self.size = options.l1d_size
 
     def connectCPU(self, cpu):
         self.cpu_side = cpu.dcache_port
@@ -33,7 +49,7 @@ class L1DCache(L1Cache):
 
 
 class L2Cache(Cache):
-    size = '262144'
+    size = '256kB'
     assoc = 8
     tag_latency = 20
     data_latency = 20
@@ -41,6 +57,12 @@ class L2Cache(Cache):
     mshrs = 20
     tgts_per_mshr = 12
 
+
+    def __init__(self, options=None):
+        super(L2Cache,self).__init__()
+        if not options or not options.l2_size:
+            return
+        self.size = options.l2_size
 
     def connectCPUSideBus(self, bus):
         self.cpu_side = bus.master
