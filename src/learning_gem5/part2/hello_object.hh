@@ -6,8 +6,19 @@
 
 class HelloObject : public SimObject
 {
+  private:
+        void processEvent();
+
+        EventFunctionWrapper event;
+
+        const Tick latency;
+
+        int timesLeft;
+
   public:
     HelloObject(const HelloObjectParams &p);
+
+        void startup();
 };
 
 #endif // __LEARNING_GEM5_HELLO_OBJECT_HH__
