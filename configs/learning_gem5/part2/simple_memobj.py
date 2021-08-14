@@ -62,7 +62,7 @@ system.cpu.dcache_port = system.memobj.data_port
 system.membus = SystemXBar()
 
 # Connect the memobj
-system.memobj.mem_side = system.membus.slave
+system.memobj.mem_side = system.membus.cpu_side_ports
 
 # create the interrupt controller for the CPU and connect to the membus
 system.cpu.createInterruptController()
